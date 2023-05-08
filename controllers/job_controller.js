@@ -37,12 +37,12 @@ class JobController {
           );
         } else if (sortOrder === "su") {
           jobs = await db.query(
-            `select * from public.job where companyId=$1 order by salary desc`,
+            `select * from public.job where companyId=$1 order by salary `,
             [companyId]
           );
         } else if (sortOrder === "sd") {
           jobs = await db.query(
-            `select * from public.job where companyId=$1 order by salary`,
+            `select * from public.job where companyId=$1 order by salary desc`,
             [companyId]
           );
         } else
@@ -63,12 +63,12 @@ class JobController {
           );
         } else if (sortOrder === "su") {
           jobs = await db.query(
-            `select * from public.job where name=$1 order by salary desc`,
+            `select * from public.job where name=$1 order by salary `,
             [name]
           );
         } else if (sortOrder === "sd") {
           jobs = await db.query(
-            `select * from public.job where name=$1 order by salary`,
+            `select * from public.job where name=$1 order by salary desc`,
             [name]
           );
         } else
@@ -89,12 +89,12 @@ class JobController {
           );
         } else if (sortOrder === "su") {
           jobs = await db.query(
-            `select * from public.job where city=$1 order by salary desc`,
+            `select * from public.job where city=$1 order by salary `,
             [city]
           );
         } else if (sortOrder === "sd") {
           jobs = await db.query(
-            `select * from public.job where city=$1 order by salary`,
+            `select * from public.job where city=$1 order by salary desc`,
             [city]
           );
         } else
@@ -115,12 +115,12 @@ class JobController {
           );
         } else if (sortOrder === "su") {
           jobs = await db.query(
-            `select * from public.job where city=$1 and name=$2 order by salary desc`,
+            `select * from public.job where city=$1 and name=$2 order by salary`,
             [city, name]
           );
         } else if (sortOrder === "sd") {
           jobs = await db.query(
-            `select * from public.job where city=$1 and name=$2 order by salary`,
+            `select * from public.job where city=$1 and name=$2 order by salary desc`,
             [city, name]
           );
         } else
@@ -142,12 +142,12 @@ class JobController {
           );
         } else if (sortOrder === "su") {
           jobs = await db.query(
-            `select * from public.job where companyId=$1 and name=$2 order by salary desc`,
+            `select * from public.job where companyId=$1 and name=$2 order by salary`,
             [companyId, name]
           );
         } else if (sortOrder === "sd") {
           jobs = await db.query(
-            `select * from public.job where companyId=$1 and name=$2 order by salary`,
+            `select * from public.job where companyId=$1 and name=$2 order by salary desc`,
             [companyId, name]
           );
         } else
@@ -169,12 +169,12 @@ class JobController {
           );
         } else if (sortOrder === "su") {
           jobs = await db.query(
-            `select * from public.job where companyId=$1 and city=$2 order by salary desc`,
+            `select * from public.job where companyId=$1 and city=$2 order by salary`,
             [companyId, city]
           );
         } else if (sortOrder === "sd") {
           jobs = await db.query(
-            `select * from public.job where companyId=$1 and city=$2 order by salary`,
+            `select * from public.job where companyId=$1 and city=$2 order by salary desc`,
             [companyId, city]
           );
         } else
@@ -192,10 +192,10 @@ class JobController {
           jobs = await db.query(`select * from public.job order by createdat`);
         } else if (sortOrder === "su") {
           jobs = await db.query(
-            `select * from public.job order by salary desc`
+            `select * from public.job order by salary`
           );
         } else if (sortOrder === "sd") {
-          jobs = await db.query(`select * from public.job order by salary`);
+          jobs = await db.query(`select * from public.job order by salary desc`);
         } else jobs = await db.query(`select * from public.job`);
         break;
     }

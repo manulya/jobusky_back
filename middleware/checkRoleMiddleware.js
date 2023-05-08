@@ -7,8 +7,9 @@ module.exports = function(role){
         }
         try {
             const token = req.headers.authorization.split(' ')[1]
+            
             if(!token){
-               return res.status(401).json({message:"Не авторизован"}) 
+               return res.status(401).json({message:"Не авторизован3"}) 
             }
             const decoded=jwt.verify(token, process.env.SECRET_KEY)
             if(decoded.role !== role){
@@ -17,7 +18,7 @@ module.exports = function(role){
             req.user = decoded
             next()
         } catch (error) {
-            res.status(401).json({message:"Не авторизован"})
+            res.status(401).json({message:"Не авторизован4"})
         }
     };
 }
