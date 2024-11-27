@@ -9,7 +9,7 @@ require('dotenv').config()
 
 const app = express()
 app.use(cors({
-    origin: "http://localhost:3000", // Разрешаем запросы только с этого домена
+    origin: "http://localhost:3001", // Разрешаем запросы только с этого домена
     methods: "GET,POST,DELETE,PUT", // Разрешаем только GET и POST запросы
     optionsSuccessStatus: 200, // Устанавливаем код ответа для успешного принятия запроса
   }))

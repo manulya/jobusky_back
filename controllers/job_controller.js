@@ -1,18 +1,24 @@
 const db = require("../db.js");
+const uuid = require("uuid");
+const path = require("path");
 
 class JobController {
   async create(req, res) {
-    const { name, description, salary, city, companyId } = req.body;
+    const { name, description, salary, companyId } = req.body;
+    const { img } = req.files;
+    let fileName = uuid.v4() + ".jpg";
+    img.mv(path.resolve(__dirname, "..", "static", fileName));
     const newJob = await db.query(
       `INSERT INTO public.job(
-        name, description, salary, city, createdat, companyid)
-        VALUES ($1, $2, $3, $4, current_date, $5) RETURNING *`,
-      [name, description, salary, city, companyId]
+        name, description, salary, city, createdat, companyid, img )
+        VALUES ($1, $2, $3, $4, current_date, $5, $6) RETURNING *`,
+      [name, description, salary, "city", companyId, fileName]
     );
     res.json(newJob.rows[0]);
   }
   async getAllJobs(req, res) {
     let { name, companyId, city, sortOrder } = req.query;
+    console.log(name, companyId, city, sortOrder);
     let jobs;
     const queryOptions = {
       companyId: companyId && !name && !city,
@@ -23,6 +29,7 @@ class JobController {
       companyIdAndCity: companyId && !name && city,
       default: !companyId && !name && !city,
     };
+    console.log(queryOptions);
     switch (true) {
       case queryOptions.companyId:
         if (sortOrder === "dd") {
@@ -77,6 +84,7 @@ class JobController {
           ]);
         break;
       case queryOptions.city:
+        console.log("city", city);
         if (sortOrder === "dd") {
           jobs = await db.query(
             `select * from public.job where city=$1 order by createdat desc`,
@@ -101,6 +109,7 @@ class JobController {
           jobs = await db.query(`select * from public.job where city=$1`, [
             city,
           ]);
+        console.log("jobs", jobs);
         break;
       case queryOptions.cityAndName:
         if (sortOrder === "dd") {
@@ -191,15 +200,15 @@ class JobController {
         } else if (sortOrder === "du") {
           jobs = await db.query(`select * from public.job order by createdat`);
         } else if (sortOrder === "su") {
-          jobs = await db.query(
-            `select * from public.job order by salary`
-          );
+          jobs = await db.query(`select * from public.job order by salary`);
         } else if (sortOrder === "sd") {
-          jobs = await db.query(`select * from public.job order by salary desc`);
+          jobs = await db.query(
+            `select * from public.job order by salary desc`
+          );
         } else jobs = await db.query(`select * from public.job`);
         break;
     }
-
+    console.log("Query result:", jobs);
     res.json({ jobs: jobs.rows, found: jobs.rows.length > 0 });
   }
   async getOneJob(req, res) {

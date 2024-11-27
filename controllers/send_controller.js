@@ -9,9 +9,15 @@ class SendController {
       `select * from public.sended where user_id=$1 and job_id=$2`,
       [user_id, job_id]
     );
-    if (candidate.rowCount) {
+
+    const clear = await db.query(
+      `DELETE FROM public.requests where userid=$1 and jobid=$2`,
+      [user_id, job_id]
+
+    );
+     if (candidate.rowCount) {
       return next(
-        ApiError.badRequest("Заявка с таким пользователем и вакансией уже существует")
+        ApiError.badRequest("Вы уже заказывали эту книгу")
       );
     }
     const newSend = await db.query(
